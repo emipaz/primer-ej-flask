@@ -1,7 +1,6 @@
 from flask import Flask
 app = Flask(__name__)
 
-
 def primo():
     contador = 1
     listaPrimos = []
@@ -16,11 +15,8 @@ def primo():
             listaPrimos.append(contador)
             yield contador
 
-
 numeros = primo()
 nombres = "Dado un list de nombre mostrarlo en una ruta de flask como lista HTML".split()
-
-
 
 @app.route("/")
 def home():
@@ -38,13 +34,12 @@ n = 1
 def ver_primos():
     global n
     resultado = f"""<!DOCTYPE html><html><meta charset="UTF-8">
-    <title>Numeros Primos</title><p>Del {(n-1)*10}º al {n*10}º Numeros Primos </p><ul>"""
+    <title>Numeros Primos</title><p>Del {(n-1)*10 +1}º al {n*10}º Numeros Primos </p><ul>"""
     for i in range(10):
         resultado+=f"<li><p>{next(numeros)}</p></li>"
     resultado+="</ul><a href='/primos'>Proximos 10  numeros primos</a></br><a href='/'>Volver al inicio</a></html>"
     n += 1
     return resultado
-
 
 POBLACION = {
     "China"                            : 1_395_261_000 ,
@@ -293,12 +288,11 @@ EUROPA = [
 
 OCEANIA = [
     "Australia", "Islas Cook","Isla de Navidad","Islas Marshall","Islas Pitcairn","Islas Salomón",
-            "Estados Federados de Micronesia","Fiyi","Guam","Kiribati","Nauru","Niue","Isla Norfolk",
-            "Nueva Zelanda","Palaos","Papúa Nueva Guinea","Islas Pitcairn","Polinesia Francesa","Samoa",
-            "Tonga","Tuvalu","Vanuatu","Wallis y Futuna"]
+    "Estados Federados de Micronesia","Fiyi","Guam","Kiribati","Nauru","Niue","Isla Norfolk",
+    "Nueva Zelanda","Palaos","Papúa Nueva Guinea","Polinesia Francesa","Samoa",
+    "Tonga","Tuvalu","Vanuatu","Wallis y Futuna"]
 
 TOTAL = sum( [ POBLACION[i] for continente in (AMERICA_CENTRAL,AMERICA_DEL_NORTE,AMÉRICA_DEL_SUR,EUROPA,ASIA,OCEANIA) for i in continente])
-
 
 @app.route("/paises")
 def paises():
@@ -306,26 +300,14 @@ def paises():
     tabla=f"<table><tr><th>{'PAIS':25}</th><th>{'POBLACION'}</th></tr><tr>"
     for continente in (AMÉRICA_DEL_SUR,AMERICA_DEL_NORTE,AMERICA_CENTRAL,ASIA,EUROPA,OCEANIA):
         for pais in continente:
-            tabla+=f"<th>{pais:40}</th><th>{POBLACION[pais]:>13}</th></tr><tr>"
+            tabla+=f"<th>{pais:>40}</th><th>{POBLACION[pais]:>13}</th></tr><tr>"
     tabla+="</td>"
     return f"""<!DOCTYPE html><html><meta charset="UTF-8">
-                <title>Poblacion</title><p>Tabla de paises</p>
+                <title>Poblacion</title><p><h1>Tabla de paises</h6></p>
                 {tabla}<tr>
                 <th>{'TOTAL':40}</th><th>{TOTAL:>13}</th></tr></table>
                 <a href='/'>Volver al inicio</a></html>
                 </html>  
     """
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.run(host="0.0.0", port=8080, debug=False)
